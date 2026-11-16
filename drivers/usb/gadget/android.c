@@ -61,6 +61,17 @@
 #ifdef CONFIG_SND_RAWMIDI
 #include "f_midi.c"
 #endif
+/* Device hooks of the AIO capable f_fs.c, unused here */
+struct ffs_data;
+static void *functionfs_acquire_dev_callback(const char *dev_name)
+{
+	return NULL;
+}
+
+static void functionfs_release_dev_callback(struct ffs_data *ffs_data)
+{
+}
+
 #include "f_fs.c"
 #include "f_mass_storage.c"
 #include "u_serial.c"

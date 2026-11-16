@@ -20,4 +20,11 @@ case $SRCARCH in
 	sparc)          BCJ=--sparc ;;
 esac
 
+# Some xz builds (e.g. the Android prebuilt) lack the BCJ filters. The
+# filter is optional for the in-kernel decompressor, so only use it when
+# this xz supports it.
+if [ -n "$BCJ" ] && ! echo | xz --check=crc32 $BCJ --lzma2=dict=1MiB >/dev/null 2>&1; then
+	BCJ=
+fi
+
 exec xz --check=crc32 $BCJ --lzma2=$LZMA2OPTS,dict=32MiB
